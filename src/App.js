@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import LocationInfo from './components/LocationInfo'
+import NavBar from './components/NavBar'
 
-function App() {
+import { BrowserRouter as Router, Link, Redirect, Route, Switch } from 'react-router-dom'
+import Search from './components/Search'
+import Visited from './components/Visited'
+import Result from './components/Result'
+const App = () => {
+  const [locationData, setLocationData] = useState({
+    weather: null, 
+    flag: null
+  });
+  const [searchData, setSearchData] = useState(null)
+  const handleLocationData = (weather, flag) => {
+    setLocationData(prevState => ({...prevState, weather: weather, flag: flag})); 
+  }
+  const handleSearchData = (searchData) => {
+    console.log('from handle search Data', searchData)
+    setSearchData(prevState => ({...prevState, searchData})); 
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Router>
+    <div id="container">
+      <NavBar />
     </div>
-  );
+      <Route exact path="/"  render={() => {
+        return <Redirect to="/home" />
+      }}/>
+
+      <Route exact path="/home" render={(props) => (
+        <>
+          <Search handleSearchData={handleSearchData} parentSearchData={searchData}/>
+          <LocationInfo locationData={locationData} handleLocationData={handleLocationData}/>
+        </>
+      )} />
+
+      <Route exact path='/result' render={(props) => (
+        <>
+          {searchData === null ? 
+              <Redirect to="/home" /> : 
+            <> 
+              <Search handleSearchData={handleSearchData}/>
+              <Result searchData={searchData.searchData}/>
+            </>
+
+          }
+        </>
+      )} />
+      <Route exact path="/visited" component={Visited} />
+
+    </Router>
+  )
 }
 
-export default App;
+export default App
+

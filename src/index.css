@@ -11,3 +11,72 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+body {
+  background-image: url(./asset/backgrtr50.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+.card-flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.card-flex-container .card {
+  margin: 100px 0 0 0; 
+  background: rgb(255, 255, 255, 0.75);
+  width: 60%;
+}
+
+/* Search component */
+#search-container {
+  display: flex;
+  flex-wrap: 1;
+  justify-content: center;
+}
+#search-container #search-wrap {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 121, 121, 0.5);
+  border-radius: 40px;
+  height: 50px;
+  padding: 5px;
+}
+#search_input {
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  width: 0;
+  font-size: 20px;
+  transition: 1s;
+  line-height: 40px;
+  padding: 0;
+  color: white;
+}
+#search-btn {
+  width: 40px;
+  border: none;
+  background: none;
+  height: 40px;
+  float: right;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+#search-wrap:hover > #search_input {
+  width: 300px;
+  padding: 0 6px;
+}
+#search-wrap:hover > #search-btn{
+  background: white;
+}
+/* #locationInfoText {
+  text-align: center;
+  padding: 20px 0 0 0;
+} */

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Card } from 'react-bootstrap';
 import { MdExpandMore } from 'react-icons/md'
+import Map from './Map';
+const google = window.google;
 const Result = ({searchData}) => {
     const [resultData, setResultData] = useState(searchData);
     const [toProcess, setToProcess] = useState(null);
@@ -24,6 +26,7 @@ const Result = ({searchData}) => {
             }
         }
     }, [resultData])
+
     const toggleDetail = (e) => {
         let idToChange = e.target.id.substr(8).toString();
         let index = 0;
@@ -36,6 +39,7 @@ const Result = ({searchData}) => {
         dataToChange.toggled = true; 
         dataToChange.isToggled = !dataToChange.isToggled; //!undefined = true; 
         console.log(dataToChange);
+        
         setResultData(prevState => ({...prevState, [prevState.data[index]]: dataToChange}));
         
     }
@@ -47,13 +51,14 @@ const Result = ({searchData}) => {
                 <Card  key={data.id} id={data.id}>
                     <Card.Body >
                     <Card.Title>{data.name}</Card.Title>
-                    <div className={"detailed-info-container"}>
+                    <Map cityData={data} />
+                    {/* <div className={"detailed-info-container"}>
                         <div className={(data.isToggled ? "detailed-info-container-show" : "detailed-info-container-close")}>
                             Hi
-                            {/* <img src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg" /> */}
-
+                            <img src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg" />
+                            <Map cityData={data} />
                         </div>
-                    </div>
+                    </div> */}
                     </Card.Body>
                     <div className="show-icon-container">
                     <MdExpandMore size={30} className="show-icon" id={"of-card-" + data.id} onClick={toggleDetail}/>

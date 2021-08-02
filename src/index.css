@@ -93,11 +93,15 @@ body {
 .active {
   background-color: red;
 }
-.detailed-info-container {
-  /* font-size: 0px;
-  height: 0; */
+img {
+  max-width: 300px;
 }
-.detailed-info-container-close img {
+.detailed-info-container {
+  /* max-height: 0; */
+  overflow: hidden;
+  transition: 1s linear;
+}
+/* .detailed-info-container-close img {
   height: 0px;
   transition: 2s;
   max-width: 300px;
@@ -105,17 +109,20 @@ body {
 .detailed-info-container-show img {
 height: 100%;  transition: 2s;
   max-width: 300px;
-}
+} */
 .detailed-info-container-close {
-  font-size: 0px;
+  /* font-size: 0px;
   height: 0%;
-  transition: 1s;
+  transition: 1s; */
+  max-height: 0px;
+
 }
 .detailed-info-container-show {
-  font-size: 60px;
-  height: 100%;
-  transform: scale(1);
-  transition: 1s;
+  max-height: 500px;
+  padding: 1rem;
+  line-height: 1.5rem;
+  border-top: 1px solid;
+  border-image: linear-gradient(to right, transparent, #34495e, transparent) 1;
 }
 .detailed-info {
  border-top: solid;

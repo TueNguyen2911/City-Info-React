@@ -53,7 +53,7 @@ const LocationInfo = ({locationData, handleLocationData}) => {
     }, [locData]);
     return (
         <div className="LocationInfo">
-            <div class="card-flex-container">
+            <div className="card-flex-container">
                 {locData.weather !== null && locData.flag !== null ? (
                 <Card style={{ width: '60%' }}>
                 <Card.Body>

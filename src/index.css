@@ -26,7 +26,7 @@ body {
 }
 .card-flex-container .card {
   margin: 100px 0 0 0; 
-  background: rgb(255, 255, 255, 0.75);
+  background: rgb(255, 255, 255, 0.65);
   width: 60%;
 }
 
@@ -80,3 +80,59 @@ body {
   text-align: center;
   padding: 20px 0 0 0;
 } */
+/* CSS for Result component  */ 
+.pagination-container {
+  margin: 10px 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination-container .pagination-btn{
+  margin: 5px 0 0 0;
+}
+.active {
+  background-color: red;
+}
+.detailed-info-container {
+  /* font-size: 0px;
+  height: 0; */
+}
+.detailed-info-container-close img {
+  height: 0px;
+  transition: 2s;
+  max-width: 300px;
+}
+.detailed-info-container-show img {
+height: 100%;  transition: 2s;
+  max-width: 300px;
+}
+.detailed-info-container-close {
+  font-size: 0px;
+  height: 0%;
+  transition: 1s;
+}
+.detailed-info-container-show {
+  font-size: 60px;
+  height: 100%;
+  transform: scale(1);
+  transition: 1s;
+}
+.detailed-info {
+ border-top: solid;
+ transition: 1s; 
+}
+.show-icon {
+  animation: big-small 1s infinite alternate;
+  float: right;
+}
+.show-icon path {
+  pointer-events: none;
+}
+@keyframes big-small {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.25);
+  }
+}

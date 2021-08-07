@@ -25,6 +25,8 @@ body {
   align-items: center;
 }
 .card-flex-container .card {
+  text-align: center;
+  /* align-items: center; */
   margin: 100px 0 0 0; 
   background: rgb(255, 255, 255, 0.65);
   width: 60%;
@@ -88,7 +90,8 @@ body {
   align-items: center;
 }
 .pagination-container .pagination-btn{
-  margin: 5px 0 0 0;
+  margin: 5px 5px;
+  
 }
 .active {
   background-color: red;
@@ -133,6 +136,10 @@ height: 100%;  transition: 2s;
 .show-icon {
   animation: big-small 1s infinite alternate;
   float: right;
+}
+.show-icon:hover {
+  transform: scale(2);
+  animation: none;
 }
 .show-icon path {
   pointer-events: none;

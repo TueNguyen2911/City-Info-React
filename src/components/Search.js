@@ -8,16 +8,19 @@ import { useHistory } from 'react-router';
 
 const Search = ({parentSearchData, handleSearchData}) => {
     const history = useHistory();
+    const [searched, setSearched] = useState(false);
     const [searchData, setSearchData] = useState({
-        data: null,
+        data: [],
         keyAlert: null,
         message: '',
         string: ''
     })
     useEffect(() => {
         console.log('searchData changes');
-        if((searchData.keyAlert !== 'danger' && searchData.keyAlert !== null && searchData.data !== null)) {
+        if((searchData.keyAlert !== 'danger' && searchData.keyAlert !== null && searchData.data.length > 0)) {
+            console.log('passing to handleSearch', searchData)
             handleSearchData(searchData);
+
         }
     }, [searchData])
     const checkSearch = (e) => {
@@ -36,10 +39,11 @@ const Search = ({parentSearchData, handleSearchData}) => {
         }
         else {
             city = string; 
+            
             let city_ids = '';
             if(jsonBulk) {
                 jsonBulk.forEach( (bulkData, index) => {
-                    if(bulkData.name.toLowerCase() === city)
+                    if(bulkData.name.replace(/\s/g,'').toLowerCase() === city)
                         city_ids += bulkData.id.toString() + ','; //dealing with comma ','
                     if(index === jsonBulk.length - 1) 
                         city_ids = city_ids.substr(0, city_ids.length - 1);
@@ -55,22 +59,34 @@ const Search = ({parentSearchData, handleSearchData}) => {
             const res = await axios.get(api_url);
             const resData = res.data;
             let message = '';
-            console.log('calling api from Search', resData);
-            let dataArray = null; 
+            console.log('calling api from Search', resData); 
             if(resData.hasOwnProperty('cnt')) {
                 message = `Found ${resData.cnt} results`;
-                dataArray = [...resData.list];
+                console.log(resData.list);
+                let arrayRes = resData.list; 
+                let dataArray2 = []
+                arrayRes.forEach((elem, idx) => {
+                    console.log(idx);
+                    dataArray2.push(elem);
+                })
+                console.log('dataArray2', dataArray2);
+                let dataArray = resData.list.slice(0, resData.cnt);
+                console.log(dataArray);
+                setSearched(true);
+                setSearchData(prevState => ({data: dataArray2, keyAlert: 'success', message: message}));
+                history.push({pathname: '/result'})
             }
             else {
                 message = `Found a result`;
-                dataArray = [resData];
+                //dataArray = [resData];
+                setSearchData(prevState => ({...prevState, data: [resData], keyAlert: 'success', message: message}));
             }
+            //console.log('dataArray after calling', dataArray);
+            //setSearchData(prevState => ({...prevState, data: dataArray, keyAlert: 'success', message: message}));
 
-            setSearchData(prevState => ({...prevState, data: dataArray, keyAlert: 'success', message: message}));
-            history.push({pathname: '/result'})
         } catch(error) {
             console.log(error.message);
-            setSearchData(prevState => ({...prevState, keyAlert: 'danger', message: error.message}));
+            setSearchData(prevState => ({...prevState, data: null, keyAlert: 'danger', message: error.message}));
         }
     }
     return (

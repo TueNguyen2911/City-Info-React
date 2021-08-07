@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import LocationInfo from './components/LocationInfo'
 import NavBar from './components/NavBar'
-
+import { useHistory } from 'react-router'
 import { BrowserRouter as Router, Link, Redirect, Route, Switch } from 'react-router-dom'
 import Search from './components/Search'
 import Visited from './components/Visited'
 import Result from './components/Result'
 const App = () => {
+  const history = useHistory();
   const [locationData, setLocationData] = useState({
     weather: null, 
     flag: null
@@ -18,6 +19,7 @@ const App = () => {
   const handleSearchData = (searchData) => {
     console.log('from handle search Data', searchData)
     setSearchData(prevState => ({...prevState, searchData})); 
+
   }
   return (
     <Router>
@@ -30,7 +32,7 @@ const App = () => {
 
       <Route exact path="/home" render={(props) => (
         <>
-          <Search handleSearchData={handleSearchData} parentSearchData={searchData}/>
+          <Search handleSearchData={handleSearchData}/>
           <LocationInfo locationData={locationData} handleLocationData={handleLocationData}/>
         </>
       )} />
@@ -40,7 +42,7 @@ const App = () => {
           {searchData === null ? 
               <Redirect to="/home" /> : 
             <> 
-              <Search handleSearchData={handleSearchData}/>
+              {/* <Search handleSearchData={handleSearchData}/> */}
               <Result searchData={searchData.searchData}/>
             </>
 

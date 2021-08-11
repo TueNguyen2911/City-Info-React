@@ -8,16 +8,18 @@ import { useHistory } from 'react-router';
 
 const Search = ({parentSearchData, handleSearchData}) => {
     const history = useHistory();
-    const [searched, setSearched] = useState(false);
+    const [searchWord, setSearchWord] = useState();
     const [searchData, setSearchData] = useState({
         data: [],
         keyAlert: null,
         message: '',
-        string: ''
+        string: '', 
+        og_string: ''
     })
+    var forUS_Obj = [{}]; 
     useEffect(() => {
         console.log('searchData changes');
-        if((searchData.keyAlert !== 'danger' && searchData.keyAlert !== null && searchData.data.length > 0)) {
+        if((searchData.keyAlert !== 'danger' && searchData.keyAlert !== null && searchData.data.length > 0 && searchData.string != '')) {
             console.log('passing to handleSearch', searchData)
             handleSearchData(searchData);
 
@@ -25,7 +27,10 @@ const Search = ({parentSearchData, handleSearchData}) => {
     }, [searchData])
     const checkSearch = (e) => {
         e.preventDefault();
+        setSearchData(prevState => ({...prevState, og_string: e.target.search_input.value}));
         const string = e.target.search_input.value.replace(/\s/g,'').toLowerCase();
+        if(string !== searchData.string)
+            console.log(`%c Not same search string `, 'background: #222; color: red');
         setSearchData(prevState => ({...prevState, string: string}));
         let city = ''; 
         let api_url = '';
@@ -39,12 +44,16 @@ const Search = ({parentSearchData, handleSearchData}) => {
         }
         else {
             city = string; 
-            
+
             let city_ids = '';
             if(jsonBulk) {
                 jsonBulk.forEach( (bulkData, index) => {
-                    if(bulkData.name.replace(/\s/g,'').toLowerCase() === city)
+                    if(bulkData.name.replace(/\s/g,'').toLowerCase() === city) {
                         city_ids += bulkData.id.toString() + ','; //dealing with comma ','
+                        if(bulkData.country === "US") {
+                            forUS_Obj.push({id: bulkData.id, name: city, state: bulkData.state})
+                        }
+                    }
                     if(index === jsonBulk.length - 1) 
                         city_ids = city_ids.substr(0, city_ids.length - 1);
                 })
@@ -57,33 +66,39 @@ const Search = ({parentSearchData, handleSearchData}) => {
         console.log(api_url)
         try {
             const res = await axios.get(api_url);
-            const resData = res.data;
+            let dataArray;
             let message = '';
-            console.log('calling api from Search', resData); 
-            if(resData.hasOwnProperty('cnt')) {
-                message = `Found ${resData.cnt} results`;
-                console.log(resData.list);
-                let arrayRes = resData.list; 
-                let dataArray2 = []
-                arrayRes.forEach((elem, idx) => {
-                    console.log(idx);
-                    dataArray2.push(elem);
+
+            console.log('calling api from Search', res.data); 
+            if(res.data.hasOwnProperty('cnt')) {
+                message = `Found ${res.data.cnt} results`;
+                dataArray = [...res.data.list];
+                dataArray.forEach((data, idx) => {
+                    forUS_Obj.forEach((forUS, idx) => {
+                        if(data.sys.country === "US" && data.name.replace(/\s/g,'').toLowerCase() == forUS.name && data.id === forUS.id) {
+                            data.sys.state = forUS.state; 
+                        }
+                    })
                 })
-                console.log('dataArray2', dataArray2);
-                let dataArray = resData.list.slice(0, resData.cnt);
                 console.log(dataArray);
-                setSearched(true);
-                setSearchData(prevState => ({data: dataArray2, keyAlert: 'success', message: message}));
-                history.push({pathname: '/result'})
+
+                setSearchData(prevState => ({...prevState, data: dataArray, keyAlert: 'success', message: message}));
             }
             else {
                 message = `Found a result`;
-                //dataArray = [resData];
-                setSearchData(prevState => ({...prevState, data: [resData], keyAlert: 'success', message: message}));
+                dataArray = [res.data]; 
+                dataArray.forEach((data, idx) => {
+                    forUS_Obj.forEach((forUS, idx) => {
+                        if(data.sys.country === "US" && data.name.replace(/\s/g,'').toLowerCase() == forUS.name && data.id === forUS.id) {
+                            data.sys.state = forUS.state; 
+                        }
+                    })
+                })
+                setSearchData(prevState => ({...prevState, data: dataArray, keyAlert: 'success', message: message, string: prevState.string}));
             }
             //console.log('dataArray after calling', dataArray);
             //setSearchData(prevState => ({...prevState, data: dataArray, keyAlert: 'success', message: message}));
-
+            history.push({pathname: '/result'})
         } catch(error) {
             console.log(error.message);
             setSearchData(prevState => ({...prevState, data: null, keyAlert: 'danger', message: error.message}));
@@ -97,6 +112,11 @@ const Search = ({parentSearchData, handleSearchData}) => {
                 <button id="search-btn"type="submit"><MdSearch size={50}/></button>
             </div>
             </div>
+            {searchData.message !== '' && searchData.keyAlert === "danger" ? 
+                <Alert style={{width: "30%", textAlign: "center", margin: "auto", marginTop: "10px"}} variant={searchData.keyAlert}>
+                    Found no city with "{searchData.og_string}"
+                </Alert> : null
+            }
         </form>
     )
 }

@@ -13,13 +13,20 @@ const App = () => {
     flag: null
   });
   const [searchData, setSearchData] = useState(null)
+  const [visitedCities, setVisitedCities] = useState([]); 
+
   const handleLocationData = (weather, flag) => {
     setLocationData(prevState => ({...prevState, weather: weather, flag: flag})); 
   }
   const handleSearchData = (searchData) => {
     console.log('from handle search Data', searchData)
-    setSearchData(prevState => ({...prevState, searchData})); 
-
+    setSearchData(searchData); 
+  }
+  const handleVisitedCities = (visited) => {
+    console.log('from handle visited cities', visited); 
+    if(visited.length > 0) {
+      setVisitedCities(prevState => [...prevState, ...visited]);
+    }
   }
   return (
     <Router>
@@ -42,14 +49,18 @@ const App = () => {
           {searchData === null ? 
               <Redirect to="/home" /> : 
             <> 
-              {/* <Search handleSearchData={handleSearchData}/> */}
-              <Result searchData={searchData.searchData}/>
+              <Search handleSearchData={handleSearchData}/>
+              <Result key={(searchData.string)} searchData={searchData} handleVisitedCities={handleVisitedCities}/>
+              
             </>
-
           }
         </>
       )} />
-      <Route exact path="/visited" component={Visited} />
+      <Route exact path="/visited" render={(props) => (
+        <>
+          <Visited p_visitedCities={visitedCities} />
+        </>
+      )} />
 
     </Router>
   )

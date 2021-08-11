@@ -61,7 +61,6 @@ const LocationInfo = ({locationData, handleLocationData}) => {
                     <h1>{locData.weather.main.temp}°C</h1>
                     Feels like {locData.weather.main.feels_like}°C
                   <br />
-                  <Button variant="primary">Go somewhere</Button>
                 </Card.Body>
               </Card>
 

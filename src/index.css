@@ -25,10 +25,11 @@ body {
   align-items: center;
 }
 .card-flex-container .card {
-  text-align: center;
   /* align-items: center; */
+  border: 1px solid;
+  max-width: 650px;
   margin: 100px 0 0 0; 
-  background: rgb(255, 255, 255, 0.65);
+  background: rgb(255, 255, 255, 0.4);
   width: 60%;
 }
 
@@ -83,11 +84,20 @@ body {
   padding: 20px 0 0 0;
 } */
 /* CSS for Result component  */ 
+.city-image {
+  width:  300px;
+  height: 200px;
+  object-fit: cover;  
+}
+.basic-info-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
 .pagination-container {
   margin: 10px 0 0 0;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 .pagination-container .pagination-btn{
   margin: 5px 5px;
@@ -101,6 +111,7 @@ img {
 }
 .detailed-info-container {
   /* max-height: 0; */
+  margin-top: 10px;
   overflow: hidden;
   /* transition: 1s linear; */
 }
@@ -123,22 +134,24 @@ height: 100%;  transition: 2s;
 }
 .detailed-info-container-show {
   max-height: 500px;
-  padding: 1rem;
+  margin-top: 10px;
   line-height: 1.5rem;
   border-top: 1px solid;
   border-image: linear-gradient(to right, transparent, #34495e, transparent) 1;
   transition: 2s;
 }
 .detailed-info {
- border-top: solid;
- transition: 1s; 
+ border-left: 1px solid;
+ margin-left: 10px;
+ padding: 10px 0 10px 10px;
 }
 .show-icon {
-  animation: big-small 1s infinite alternate;
+  /* animation: big-small 1s infinite alternate; */
   float: right;
+  transition: .5s;
 }
 .show-icon:hover {
-  transform: scale(2);
+  color: white;
   animation: none;
 }
 .show-icon path {

@@ -1,0 +1,44 @@
+{
+    "coord": {
+      "lon": -79.339,
+      "lat": 43.782
+    },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "base": "stations",
+    "main": {
+      "temp": 31.34,
+      "feels_like": 35.32,
+      "temp_min": 29.73,
+      "temp_max": 32.77,
+      "pressure": 1016,
+      "humidity": 59
+    },
+    "visibility": 10000,
+    "wind": {
+      "speed": 1.34,
+      "deg": 135,
+      "gust": 4.47
+    },
+    "clouds": {
+      "all": 76
+    },
+    "dt": 1628536381,
+    "sys": {
+      "type": 2,
+      "id": 2009209,
+      "country": "CA",
+      "sunrise": 1628504115,
+      "sunset": 1628555429
+    },
+    "timezone": -14400,
+    "id": 5882599,
+    "name": "Agincourt",
+    "cod": 200
+  }

@@ -14,7 +14,6 @@ const App = () => {
   });
   const [searchData, setSearchData] = useState(null)
   const [visitedCities, setVisitedCities] = useState([]); 
-
   const handleLocationData = (weather, flag) => {
     setLocationData(prevState => ({...prevState, weather: weather, flag: flag})); 
   }

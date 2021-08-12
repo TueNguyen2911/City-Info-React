@@ -40,7 +40,7 @@ const Search = ({parentSearchData, handleSearchData}) => {
             let country = string.substr(city.length + 1, string.length - 1); 
             console.log(city, city.length);
             console.log(country, country.length);
-            api_url = `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=1c4993f81daae9d4eaf06858adea5d31&units=metric`;
+            api_url = `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${process.env.REACT_APP_APP_ID}&units=metric`;
         }
         else {
             city = string; 
@@ -58,7 +58,7 @@ const Search = ({parentSearchData, handleSearchData}) => {
                         city_ids = city_ids.substr(0, city_ids.length - 1);
                 })
             }
-            api_url = `http://api.openweathermap.org/data/2.5/group?id=${city_ids}&appid=1c4993f81daae9d4eaf06858adea5d31&units=metric`;
+            api_url = `http://api.openweathermap.org/data/2.5/group?id=${city_ids}&appid=${process.env.REACT_APP_APP_ID}&units=metric`;
         }   
         getSearchedData(api_url)
     }

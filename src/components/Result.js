@@ -14,11 +14,11 @@ const Result = ({searchData, handleVisitedCities}) => {
         searchData.data.forEach(async(elem, idx) => {
             try {
             const proxyUrl = "https://tues-cors-anywhere.herokuapp.com/"; 
-            let api_url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${elem.name + "," + (elem.sys.state ? elem.sys.state + "," : '') + elem.sys.country.toLowerCase()}&inputtype=textquery&fields=name,photos&key=AIzaSyDPvB4xdaK78mfB3LETo97zJ-dOFHBqdLs`
+            let api_url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${elem.name + "," + (elem.sys.state ? elem.sys.state + "," : '') + elem.sys.country.toLowerCase()}&inputtype=textquery&fields=name,photos&key=${process.env.REACT_APP_GG_KEY}`
             const initialPlacesRequest = await axios.get(proxyUrl + api_url);
             const photoRef = initialPlacesRequest?.data?.candidates?.[0]?.photos?.[0]?.photo_reference;
             if(photoRef) {
-                const imageLookupURL = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=AIzaSyDPvB4xdaK78mfB3LETo97zJ-dOFHBqdLs&maxwidth=700&maxheight=700`;
+                const imageLookupURL = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=${process.env.REACT_APP_GG_KEY}&maxwidth=700&maxheight=700`;
                 const imageURLQuery = await fetch(proxyUrl + imageLookupURL)
                 .then(r => r.blob())
                 .catch(console.error);

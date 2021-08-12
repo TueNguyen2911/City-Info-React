@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Col, Container, Row, Card, Button } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 const LocationInfo = ({locationData, handleLocationData}) => {
+  console.log(process.env)
     const [locData, setLocData] = useState({
       weather: null,
       flag: null
@@ -17,8 +18,8 @@ const LocationInfo = ({locationData, handleLocationData}) => {
         console.log('location did mount');
         const getAPIData = async(position) => {
             try {
-                const api_url = (`http://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=1c4993f81daae9d4eaf06858adea5d31&units=metric`);
-
+                const api_url = (`http://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${process.env.REACT_APP_APP_ID}&units=metric`);
+                console.log(api_url);
                 const res = await axios.get(api_url);
                 console.log('calling api from LocationInfo', api_url)
                 setLocData(prevState => ({...prevState, flag: `https://www.countryflags.io/${res.data.sys.country}/shiny/64.png`}))

@@ -8,7 +8,6 @@ import { useHistory } from 'react-router';
 
 const Search = ({parentSearchData, handleSearchData}) => {
     const history = useHistory();
-    const [searchWord, setSearchWord] = useState();
     const [searchData, setSearchData] = useState({
         data: [],
         keyAlert: null,

@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import LocationInfo from './components/LocationInfo'
 import NavBar from './components/NavBar'
-import { useHistory } from 'react-router'
-import { BrowserRouter as Router, Link, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route} from 'react-router-dom'
 import Search from './components/Search'
 import Visited from './components/Visited'
 import Result from './components/Result'
 const App = () => {
-  const history = useHistory();
   const [locationData, setLocationData] = useState({
     weather: null, 
     flag: null
@@ -24,7 +22,15 @@ const App = () => {
   const handleVisitedCities = (visited) => {
     console.log('from handle visited cities', visited); 
     if(visited.length > 0) {
-      setVisitedCities(prevState => [...prevState, ...visited]);
+      let checkedRedundantVisited = [...visited]; 
+      visited.map((data1, idx) => {
+        visitedCities.map(data2 => {
+          if(data1.id === data2.id) 
+            checkedRedundantVisited.splice(idx, 1); 
+        })
+      });
+      console.log(checkedRedundantVisited);
+      setVisitedCities(prevState => [...prevState, ...checkedRedundantVisited]);
     }
   }
   return (

@@ -18,22 +18,23 @@ const Visited = ({p_visitedCities}) => {
             }
         }
     }, []);
-    useEffect(() => {
-        console.log(`%c Visited mounted`, 'background: #222; color: red');
-        if(p_visitedCities.length > 0) {
-            if(p_visitedCities.length > 3) {
-                setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities.slice(0,3), pageNumber: 1, totalPage: Math.ceil(p_visitedCities.length / 3)}));
-            }
-            else {
-                setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities, pageNumber: 1, totalPage: 1}));
-            }
-        }
-    }, [p_visitedCities]);
+    // useEffect(() => {
+    //     console.log(`%c Visited mounted`, 'background: #222; color: red');
+    //     if(p_visitedCities.length > 0) {
+    //         if(p_visitedCities.length > 3) {
+    //             setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities.slice(0,3), pageNumber: 1, totalPage: Math.ceil(p_visitedCities.length / 3)}));
+    //         }
+    //         else {
+    //             setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities, pageNumber: 1, totalPage: 1}));
+    //         }
+    //     }
+    // }, [p_visitedCities]);
 
     const changePage = (pageNum) => {
         if(pageNum != toProcess.pageNumber) {
             const start = (pageNum * 3) - 3
-            const end =  (pageNum * 3) > p_visitedCities.length ? p_visitedCities.length : (pageNum * 3) % p_visitedCities.length;
+            const end =  (pageNum * 3) >= p_visitedCities.length ? p_visitedCities.length : (pageNum * 3) % p_visitedCities.length;
+            console.log(p_visitedCities.slice(start, end), start, end);
             setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities.slice(start, end), pageNumber: pageNum}));
         }
     }

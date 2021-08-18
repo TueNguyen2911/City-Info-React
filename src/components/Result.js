@@ -51,6 +51,19 @@ const Result = ({searchData, handleVisitedCities}) => {
     useEffect(() => {
         setResultData(searchData)
         getImages();
+
+        let localData = null; 
+        if(resultData.data !== null) {
+            localData = resultData.data; //using localData to splice the array if exceeds 3 
+            if(resultData.data.length > 3) {
+                setToProcess(prevState => ({...prevState, trimmedData: localData.slice(0,3), pageNumber: 1, totalPage: Math.ceil(localData.length / 3)}));
+            }
+            else {
+                localData = resultData.data; 
+                setToProcess(prevState => ({...prevState, trimmedData: localData, pageNumber: 1, totalPage: 1}));
+            }
+        }
+
         console.log(`%c REsult mounted`, 'background: #222; color: red');
     }, []);
 
@@ -70,23 +83,23 @@ const Result = ({searchData, handleVisitedCities}) => {
         setResultData({data: modifiedArray})
     }, [image])
 
-    useEffect(() => {
-        let localData = null; 
-        if(resultData.data !== null) {
-            localData = resultData.data; //using localData to splice the array if exceeds 3 
-            if(resultData.data.length > 3) {
-                setToProcess(prevState => ({...prevState, trimmedData: localData.slice(0,3), pageNumber: 1, totalPage: Math.ceil(localData.length / 3)}));
-            }
-            else {
-                localData = resultData.data; 
-                setToProcess(prevState => ({...prevState, trimmedData: localData, pageNumber: 1, totalPage: 1}));
-            }
-        }
-    }, [resultData])
+    // useEffect(() => {
+    //     let localData = null; 
+    //     if(resultData.data !== null) {
+    //         localData = resultData.data; //using localData to splice the array if exceeds 3 
+    //         if(resultData.data.length > 3) {
+    //             setToProcess(prevState => ({...prevState, trimmedData: localData.slice(0,3), pageNumber: prevState.pageNum ? 1 : prevState.pageNum, totalPage: Math.ceil(localData.length / 3)}));
+    //         }
+    //         else {
+    //             localData = resultData.data; 
+    //             setToProcess(prevState => ({...prevState, trimmedData: localData, pageNumber: prevState.pageNum ? 1 : prevState.pageNum, totalPage: 1}));
+    //         }
+    //     }
+    // }, [resultData])
     const changePage = (pageNum) => {
         if(pageNum != toProcess.pageNumber) {
             const start = (pageNum * 3) - 3
-            const end =  (pageNum * 3) > resultData.data.length ? resultData.data.length : (pageNum * 3) % resultData.data.length;
+            const end =  (pageNum * 3) >= resultData.data.length ? resultData.data.length : (pageNum * 3) % resultData.data.length;
             setToProcess(prevState => ({...prevState, trimmedData: resultData.data.slice(start, end), pageNumber: pageNum}));
         }
     }
@@ -104,6 +117,7 @@ const Result = ({searchData, handleVisitedCities}) => {
         const modifiedArray = [...resultData.data]; 
         modifiedArray[index] = dataToChange; 
         setResultData(prevState => ({...prevState, [prevState.data[index]]: dataToChange}));
+        setToProcess(prevState => ({...prevState, [prevState.trimmedData[index]]: dataToChange}));   
     }
 
     return (
@@ -121,7 +135,7 @@ const Result = ({searchData, handleVisitedCities}) => {
                             Feels like {data.main.feels_like}°C. {data.weather[0].main}, {data.weather[0].description} 
                         </div>
                     </div>
-                    {data.image ? <img className="city-image" src={data.image} alt="error or there's no picture" /> : 'Loading...' }
+                    {data.image ? <img className="city-image" src={data.image} alt="img of a city" /> : 'Loading...' }
                     </div>
 
                     <div className={"detailed-info-container"}>

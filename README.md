@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+## API uses: 
+* OpenweatherMap: https://openweathermap.org/current 
+* Google Place Search: https://developers.google.com/maps/documentation/places/web-service/search-find-place
+* Google Place Photos: https://developers.google.com/maps/documentation/places/web-service/photos
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -67,4 +71,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
+
+

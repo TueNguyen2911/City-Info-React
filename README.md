@@ -2,6 +2,13 @@
 * OpenweatherMap: https://openweathermap.org/current 
 * Google Place Search: https://developers.google.com/maps/documentation/places/web-service/search-find-place
 * Google Place Photos: https://developers.google.com/maps/documentation/places/web-service/photos
+
+## Lesson learned (To be updated)
+### Using Google APIs to get an image of a city
+### How to make background transparent without affecting its children
+### Pagination 
+### Google Map in React
+
 <!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

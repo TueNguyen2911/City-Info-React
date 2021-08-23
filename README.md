@@ -28,8 +28,26 @@
 ```javascript 
   background: rgba(255, 121, 121, 0.5);
 ```
-### Pagination 
-
+### Pagination (Result and Pagination component)
+* Slicing the data passed to Result component => trimmed data is an array of length 3 
+```javascript 
+    if(resultData.data !== null) {
+        if(resultData.data.length > 3) 
+            setToProcess(prevState => ({...prevState, trimmedData: resultData.data.slice(0,3), pageNumber: 1, totalPage: Math.ceil(resultData.data.length / 3)}));
+        else
+            setToProcess(prevState => ({...prevState, trimmedData: resultData.data, pageNumber: 1, totalPage: 1}));
+    }
+```
+* Once page button is clicked, set state (pageNumber) of Result => update trimmed data based on pageNumber 
+```javascript 
+    const changePage = (pageNum) => {
+        if(pageNum != toProcess.pageNumber) {
+            const start = (pageNum * 3) - 3
+            const end =  (pageNum * 3) >= resultData.data.length ? resultData.data.length : (pageNum * 3) % resultData.data.length;
+            setToProcess(prevState => ({...prevState, trimmedData: resultData.data.slice(start, end), pageNumber: pageNum}));
+        }
+    }
+```
 ### Google Map in React
 
 <!-- # Getting Started with Create React App

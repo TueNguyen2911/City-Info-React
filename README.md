@@ -5,6 +5,24 @@
 
 ## Lesson learned (To be updated)
 ### Using Google APIs to get an image of a city
+* Enabling Places API and billing 
+* Place Photos API requires a photo_reference parameter (can be acquired from Place Search)
+* Getting photo_reference from Place Search, src\components\Result.js line 16
+    ```
+        const proxyUrl = "https://tues-cors-anywhere.herokuapp.com/"; 
+        let api_url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${elem.name + "," + (elem.sys.state ? elem.sys.state + "," : '') + elem.sys.country.toLowerCase()}&inputtype=textquery&fields=name,photos&key=${process.env.REACT_APP_GG_KEY}`
+        const placesRequest = await axios.get(proxyUrl + api_url);
+        const photoRef = placesRequest?.data?.candidates?.[0]?.photos?.[0]?.photo_reference;
+    ```
+* Getting photo using photo_reference by calling Place Photos, src\components\Result.js line 21
+    ```
+        const placePhotoUrl = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=${process.env.REACT_APP_GG_KEY}&maxwidth=700&maxheight=700`;
+        const imageURLQuery = await fetch(proxyUrl + placePhotoUrl)
+        .then(r => r.blob())
+        .catch(console.error);
+        const img = URL.createObjectURL(imageURLQuery); 
+    ```
+* I use fetch here instead of axios because it turns the image file into binary file. Cast the image file into a blob after getting response seems to work well. 
 ### How to make background transparent without affecting its children
 ### Pagination 
 ### Google Map in React

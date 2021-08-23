@@ -5,9 +5,9 @@
 
 ## Lesson learned (To be updated)
 ### Using Google APIs to get an image of a city
-* Enabling Places API and billing 
-* Place Photos API requires a photo_reference parameter (can be acquired from Place Search)
-* Getting photo_reference from Place Search, src\components\Result.js line 16
+Enabling Places API and billing 
+Place Photos API requires a photo_reference parameter (can be acquired from Place Search)
+Getting photo_reference from Place Search, src\components\Result.js line 16
     ```javascript 
         const proxyUrl = "https://tues-cors-anywhere.herokuapp.com/"; 
         let api_url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${elem.name + "," + (elem.sys.state ? elem.sys.state + "," : '') + elem.sys.country.toLowerCase()}&inputtype=textquery&fields=name,photos&key=${process.env.REACT_APP_GG_KEY}`

@@ -51,20 +51,12 @@ const Result = ({searchData, handleVisitedCities}) => {
     useEffect(() => {
         setResultData(searchData)
         getImages();
-
-        let localData = null; 
         if(resultData.data !== null) {
-            localData = resultData.data; //using localData to splice the array if exceeds 3 
-            if(resultData.data.length > 3) {
-                setToProcess(prevState => ({...prevState, trimmedData: localData.slice(0,3), pageNumber: 1, totalPage: Math.ceil(localData.length / 3)}));
-            }
-            else {
-                localData = resultData.data; 
-                setToProcess(prevState => ({...prevState, trimmedData: localData, pageNumber: 1, totalPage: 1}));
-            }
+            if(resultData.data.length > 3) 
+                setToProcess(prevState => ({...prevState, trimmedData: resultData.data.slice(0,3), pageNumber: 1, totalPage: Math.ceil(resultData.data.length / 3)}));
+            else
+                setToProcess(prevState => ({...prevState, trimmedData: resultData.data, pageNumber: 1, totalPage: 1}));
         }
-
-        console.log(`%c REsult mounted`, 'background: #222; color: red');
     }, []);
 
     useEffect(() => {
@@ -83,19 +75,6 @@ const Result = ({searchData, handleVisitedCities}) => {
         setResultData({data: modifiedArray})
     }, [image])
 
-    // useEffect(() => {
-    //     let localData = null; 
-    //     if(resultData.data !== null) {
-    //         localData = resultData.data; //using localData to splice the array if exceeds 3 
-    //         if(resultData.data.length > 3) {
-    //             setToProcess(prevState => ({...prevState, trimmedData: localData.slice(0,3), pageNumber: prevState.pageNum ? 1 : prevState.pageNum, totalPage: Math.ceil(localData.length / 3)}));
-    //         }
-    //         else {
-    //             localData = resultData.data; 
-    //             setToProcess(prevState => ({...prevState, trimmedData: localData, pageNumber: prevState.pageNum ? 1 : prevState.pageNum, totalPage: 1}));
-    //         }
-    //     }
-    // }, [resultData])
     const changePage = (pageNum) => {
         if(pageNum != toProcess.pageNumber) {
             const start = (pageNum * 3) - 3

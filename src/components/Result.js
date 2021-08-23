@@ -36,7 +36,14 @@ const Result = ({searchData, handleVisitedCities}) => {
             }
         });
     }
-    
+    const trimData = () => {
+        if(resultData.data !== null) {
+            if(resultData.data.length > 3) 
+                setToProcess(prevState => ({...prevState, trimmedData: resultData.data.slice(0,3), pageNumber: 1, totalPage: Math.ceil(resultData.data.length / 3)}));
+            else
+                setToProcess(prevState => ({...prevState, trimmedData: resultData.data, pageNumber: 1, totalPage: 1}));
+        }
+    }
     useEffect(() => {
         return () => {
             console.log(`%c REsult Unmounted`, 'background: #222; color: red');
@@ -58,11 +65,16 @@ const Result = ({searchData, handleVisitedCities}) => {
                 setToProcess(prevState => ({...prevState, trimmedData: resultData.data, pageNumber: 1, totalPage: 1}));
         }
     }, []);
-
     useEffect(() => {
         console.log('searchData in result changes')
         getImages();
         setResultData(searchData)
+        if(searchData.data !== null) {
+            if(searchData.data.length > 3) 
+                setToProcess(prevState => ({...prevState, trimmedData: searchData.data.slice(0,3), pageNumber: 1, totalPage: Math.ceil(searchData.data.length / 3)}));
+            else
+                setToProcess(prevState => ({...prevState, trimmedData: searchData.data, pageNumber: 1, totalPage: 1}));
+        }
     }, [searchData]);
 
     useEffect(() => {

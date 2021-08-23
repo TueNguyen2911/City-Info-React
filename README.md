@@ -1,3 +1,4 @@
+This app let you search for a city or multiple cities displaying their info. 
 ## API uses: 
 * OpenweatherMap: https://openweathermap.org/current 
 * Google Place Search: https://developers.google.com/maps/documentation/places/web-service/search-find-place

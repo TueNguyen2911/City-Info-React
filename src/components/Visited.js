@@ -18,17 +18,17 @@ const Visited = ({p_visitedCities}) => {
             }
         }
     }, []);
-    // useEffect(() => {
-    //     console.log(`%c Visited mounted`, 'background: #222; color: red');
-    //     if(p_visitedCities.length > 0) {
-    //         if(p_visitedCities.length > 3) {
-    //             setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities.slice(0,3), pageNumber: 1, totalPage: Math.ceil(p_visitedCities.length / 3)}));
-    //         }
-    //         else {
-    //             setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities, pageNumber: 1, totalPage: 1}));
-    //         }
-    //     }
-    // }, [p_visitedCities]);
+    useEffect(() => {
+        console.log(`%c Visited mounted`, 'background: #222; color: red');
+        if(p_visitedCities.length > 0) {
+            if(p_visitedCities.length > 3) {
+                setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities.slice(0,3), pageNumber: 1, totalPage: Math.ceil(p_visitedCities.length / 3)}));
+            }
+            else {
+                setToProcess(prevState => ({...prevState, trimmedData: p_visitedCities, pageNumber: 1, totalPage: 1}));
+            }
+        }
+    }, [p_visitedCities]);
 
     const changePage = (pageNum) => {
         if(pageNum != toProcess.pageNumber) {

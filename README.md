@@ -1,6 +1,6 @@
 This app let you search for a city or multiple cities displaying their info. 
 * To run this, clone or download this repo, npm install all dependency, set up an .env file with your own api keys
-* Link to video demo: 
+* Link to video demo: https://drive.google.com/file/d/1xooHamqYLr73CDZFaBx29J5tWC2kmEDK/view?usp=sharing 
 ## API uses: 
 * OpenweatherMap: https://openweathermap.org/current 
 * Google Place Search: https://developers.google.com/maps/documentation/places/web-service/search-find-place

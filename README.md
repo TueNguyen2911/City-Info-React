@@ -61,6 +61,7 @@ Once page button is clicked, set state (pageNumber) of Result => update trimmed 
     }
 ```
 ### Google Map in React
+Documentation: https://tomchentw.github.io/react-google-maps/
 
 <!-- # Getting Started with Create React App
 

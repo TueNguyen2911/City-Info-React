@@ -1,14 +1,29 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
 import { Card } from 'react-bootstrap';
 import { MdExpandMore } from 'react-icons/md'
 import axios from 'axios'
 import Map from './Map';
 import Pagination from './Pagination';
+
+//custom hook to get window size
+function useWindowSize() {
+    const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
+    useEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener('resize', updateSize);
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+  }
+
 const Result = ({searchData, handleVisitedCities}) => {
+    const [width, height] = useWindowSize();
     const [resultData, setResultData] = useState(searchData);
     const [toProcess, setToProcess] = useState(null);
     const [image, setImage] = useState([]);
+    const aCard = useRef(null);
     //getImages call 2 apis, 1 to get photoRef, use photoRef to call 2nd api to get photo
     const getImages = () => {
         searchData.data.forEach(async(elem, idx) => {
@@ -36,14 +51,7 @@ const Result = ({searchData, handleVisitedCities}) => {
             }
         });
     }
-    const trimData = () => {
-        if(resultData.data !== null) {
-            if(resultData.data.length > 3) 
-                setToProcess(prevState => ({...prevState, trimmedData: resultData.data.slice(0,3), pageNumber: 1, totalPage: Math.ceil(resultData.data.length / 3)}));
-            else
-                setToProcess(prevState => ({...prevState, trimmedData: resultData.data, pageNumber: 1, totalPage: 1}));
-        }
-    }
+    //component will unmount
     useEffect(() => {
         return () => {
             console.log(`%c REsult Unmounted`, 'background: #222; color: red');
@@ -64,7 +72,9 @@ const Result = ({searchData, handleVisitedCities}) => {
             else
                 setToProcess(prevState => ({...prevState, trimmedData: resultData.data, pageNumber: 1, totalPage: 1}));
         }
+        
     }, []);
+    //Search data changes (search for another city)
     useEffect(() => {
         console.log('searchData in result changes')
         getImages();
@@ -110,13 +120,14 @@ const Result = ({searchData, handleVisitedCities}) => {
         setResultData(prevState => ({...prevState, [prevState.data[index]]: dataToChange}));
         setToProcess(prevState => ({...prevState, [prevState.trimmedData[index]]: dataToChange}));   
     }
-
+    
     return (
         <div className="Result">
             <div className="card-flex-container">
             {toProcess !== null ? (toProcess.trimmedData.map((data, idx) => {
                 return (
-                <Card  key={data.id} id={data.id}>
+
+                <Card ref={(idx === 0 ? aCard : null)} key={data.id} id={data.id}>
                     <Card.Body >
                     <div className="basic-info-container">
                     <div>
@@ -126,7 +137,7 @@ const Result = ({searchData, handleVisitedCities}) => {
                             Feels like {data.main.feels_like}°C. {data.weather[0].main}, {data.weather[0].description} 
                         </div>
                     </div>
-                    {data.image ? <img className="city-image" src={data.image} alt="img of a city" /> : 'Loading...' }
+                    {data.image ? <img className="city-image" style={aCard.current.scrollWidth < 300 ? {width: aCard.current.scrollWidth - 30} : null} src={data.image} alt="img of a city" /> : 'Loading...' }
                     </div>
 
                     <div className={"detailed-info-container"}>
